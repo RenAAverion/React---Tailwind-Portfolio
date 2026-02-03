@@ -1,0 +1,27 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+
+@theme{
+  --font-gsc: "Google Sans Code", monospace;
+  --font-stm: "Share Tech Mono", monospace;
+  --hover-in:
+}
+
+*{
+  scroll-behavior: smooth;
+}
+
+/* hide scrollbar but keep scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none;     /* IE & Edge */
+  scrollbar-width: none;        /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+
