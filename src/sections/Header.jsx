@@ -11,7 +11,7 @@ function Header() {
     >
       <h1 className="text-2xl mx-auto md:text-2xl md:mx-0">My Portfolio</h1>
       <nav className="md:flex-col">
-        <ul className="md:group flex space gap-10">
+        <ul className="flex space gap-10 justify-center">
           <li>
             <a
               href="#hero"
