@@ -17,7 +17,7 @@ const filesProof = [
   {
     companylogo: "https://i.ibb.co/23DsVpj8/futurelearnlogo.png",
     filename:
-      "digital-skills-user-experience_certificate_of_achievement_lr2ico4.pdf",
+      "digital-skills-user-experience_certificate.pdf",
     link: "https://drive.google.com/file/d/1vr_mh96t4HuSEKdqN236_vdp2iAEBnlE/view?usp=drive_link",
   },
 ];
@@ -26,14 +26,14 @@ function Proofs() {
   const filesItems = filesProof.map((file, index) => (
     <div
       key={index}
-      className="flex border-1 m-3 px-3 justify-between p-2 bg-white rounded-md"
+      className=" border-1 m-3 px-3 p-2 bg-white rounded-md md:justify-between md:flex"
     >
-      <img src={file.companylogo} alt="" className="flex-1 w-15 h-10 mr-2" />
-      <p className="font-stm flex-5 content-center">{file.filename}</p>
+      <img src={file.companylogo} alt="" className=" md:flex-1 md:mr-2 md:w-15 md:h-10" />
+      <p className="font-stm flex-5 content-center text-wrap">{file.filename}</p>
       <a
         target="_blank"
         href={file.link}
-        className="flex items-center px-2 py-1 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+        className="flex justify-center px-2 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
       >
         {" "}
         View File{" "}
@@ -41,7 +41,7 @@ function Proofs() {
     </div>
   ));
 
-  return <div className="flex p-3 flex-col">{filesItems}</div>;
+  return <div className="flex flex-col md:p-3 ">{filesItems}</div>;
 }
 
 export default Proofs;

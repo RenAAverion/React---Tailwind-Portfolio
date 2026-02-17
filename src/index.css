@@ -90,6 +90,22 @@
   }
 }
 
+@media (max-width: 768px) {
+  #picture::after, #picture::before {
+    height: 100%;
+    width: 40%;
+    left: 50%;  
+    filter: none; 
+  }
+
+  #picture::before {
+    filter: blur(0.75rem); /* reduce blur on mobile */
+  }
+  .animate-scroll {
+    animation: scroll 8s linear infinite !important;
+  }
+}
+
 nav a {
   position: relative;
   display: inline-block;

@@ -65,18 +65,30 @@ function Gallery() {
   const items = images.map((img, index) => (
     <div
       key={index}
-      className="flex flex-col items-center justify-center font-stm"
+      className="flex flex-col items-center justify-center font-stm flex-shrink-0 px-6"
     >
       <img
         src={img.logo}
         alt={img.name + " logo"}
         className="h-15 w-15 rounded-md"
       />
-      <p className=" text-white">{img.name}</p>
+      <p className="text-white">{img.name}</p>
     </div>
   ));
 
-  return <div className="flex justify-evenly overflow-x-auto">{items}</div>;
+  return (
+    <div className="md:flex md:justify-evenly overflow-hidden">
+      {/* mobile sliding */}
+      <div className="flex md:hidden animate-scroll whitespace-nowrap">
+        {items}
+        {items} {/* duplicate for seamless loop */}
+      </div>
+      {/* desktop static */}
+      <div className="hidden md:flex md:justify-evenly w-full">
+        {items}
+      </div>
+    </div>
+  );
 }
 
 export default Gallery;

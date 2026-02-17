@@ -41,26 +41,32 @@ function SiteCard({ site }) {
 
   return (
     <div className="h-full flex flex-col rounded-md shadow-xl/30 relative overflow-hidden">
-      <span className="flex items-center font-stm absolute m-5 p-1 rounded-md bg-white right-0 shadow-md z-10">{tag}|{" " + site.category}</span>
-      
-      {/* Fixed height image */}
-      <img src={site.snapshot} alt={site.name + " preview"} className="w-full h-48 object-cover" />
-      
-      <div className="py-2 px-1 flex-1 flex flex-col justify-between">
-        <div className="text-center px-10 py-5">
-          {/* Fixed height title area */}
-          <h4 className="text-l font-stm text-xl mb-2 h-14 flex items-center justify-center">{site.name}</h4>
-          
-          {/* Fixed height description - exactly 3 lines */}
-          <p className="font-stm text-sm line-clamp-3 h-16">{site.description}</p>
+      <span className="flex items-center font-stm absolute m-2 md:m-5 p-1 rounded-md bg-white right-0 shadow-md z-10 text-xs md:text-sm">
+        {tag}|{" " + site.category}
+      </span>
+
+      {/* Smaller image on mobile */}
+      <img src={site.snapshot} alt={site.name + " preview"} className="w-full h-28 md:h-48 object-cover" />
+
+      <div className="py-1 px-1 flex-1 flex flex-col justify-between">
+        <div className="text-center px-2 md:px-10 py-2 md:py-5">
+          {/* Smaller title on mobile */}
+          <h4 className="font-stm text-sm text-l md:text-xl mb-1 md:mb-2 h-8 md:h-14 flex items-center justify-center">
+            {site.name}
+          </h4>
+
+          {/* Hide description on mobile to save space */}
+          <p className="mt-3 md:block font-stm text-sm line-clamp-3 h-16">
+            {site.description}
+          </p>
         </div>
-        
-        {/* Buttons always at bottom */}
-        <div className="flex px-5 pb-3 gap-2">
+
+        {/* Buttons */}
+        <div className="flex px-2 md:px-5 pb-2 md:pb-3 gap-2">
           <a
             target="_blank"
             href={linkStatus?.status === "live" ? linkStatus.url : undefined}
-            className="flex flex-1 justify-center items-center px-2 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+            className="flex flex-1 justify-center items-center px-2 py-1 md:py-2 border-1 bg-black text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-black transition ease-linear duration-300"
           >
             {linkStatus === null && globe}
             {linkStatus?.status === "live" && globe}
@@ -69,7 +75,7 @@ function SiteCard({ site }) {
           <a
             target="_blank"
             href={site.preview}
-            className="flex-6 flex items-center justify-center px-2 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+            className="flex-6 flex items-center justify-center px-2 py-1 md:py-2 border-1 bg-black text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-black transition ease-linear duration-300"
           >
             Preview
           </a>
@@ -93,32 +99,31 @@ function Sites() {
 export function SitesPreview() {
   return (
     <div className="relative overflow-hidden">
-      {/* Left fade overlay */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+      {/* Left fade overlay - reduced on mobile */}
+      <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
       
-      {/* Right fade overlay */}
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+      {/* Right fade overlay - reduced on mobile */}
+      <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
       
       {/* Scrolling container */}
-      <div className="flex gap-4 animate-scroll ">
-        {/* First set of items */}
+      <div className="flex gap-4 animate-scroll">
+        {/* First set */}
         {Websites.map((site, index) => (
-          <div key={`first-${index}`} className="flex-shrink-0 w-80 h-[500px] ">
+          <div key={`first-${index}`} className="flex-shrink-0 w-56 h-[340px] md:w-80 md:h-[500px]">
             <SiteCard site={site} />
           </div>
         ))}
-        
-        {/* Duplicate set for seamless loop */}
+        {/* Duplicate for seamless loop */}
         {Websites.map((site, index) => (
-          <div key={`second-${index}`} className="flex-shrink-0 w-80 h-[500px]">
+          <div key={`second-${index}`} className="flex-shrink-0 w-56 h-[340px] md:w-80 md:h-[500px]">
             <SiteCard site={site} />
           </div>
         ))}
       </div>
-      
+
       <div className="flex justify-center mt-8">
-        <a 
-          href="/gallery" 
+        <a
+          href="/gallery"
           className="text-center px-5 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
         >
           View More

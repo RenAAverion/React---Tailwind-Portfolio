@@ -10,16 +10,7 @@ function MyStack() {
           allow="autoplay" 
           allowFullScreen 
           src="https://streamable.com/e/4irkwc?autoplay=1&loop=1&muted=1" 
-          className="border-none"
-          style={{ 
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '500%',
-            height: '500%',
-            pointerEvents: 'none'
-          }}
+          className="border-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200%] w-[170%] md:w-full md:h-[500%] pointer-events-none "
         />
       </div>
 
@@ -28,7 +19,7 @@ function MyStack() {
 
       {/* Website content */}
       <div className="relative z-10">
-        <h4 className="font-stm text-3xl text-white mb-3">Tools</h4>
+        <h4 className="font-stm text-2xl md:text-3xl text-white text-center">Tools</h4>
         <hr className="block border-dashed my-2 bg-white" />
         <p className="text-white font-stm mb-5">
           These are the tools that I have used throughout my academic, personal,
