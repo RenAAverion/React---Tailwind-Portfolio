@@ -1,9 +1,10 @@
-import Header from './sections/Header.jsx';
-import Footer from './sections/Footer.jsx';
+import Header from './modular/Header.jsx';
+import Footer from './modular/Footer.jsx';
 import Hero from './sections/Hero.jsx';
 import About from './sections/About.jsx';
 import MyStack from './sections/Stack.jsx';
 import Projects from './sections/projects.jsx';
+import Contact from './sections/Contact.jsx';
 
 function App(){
   return (
@@ -13,6 +14,7 @@ function App(){
       <About />
       <MyStack />
       <Projects />
+      <Contact/>
       <Footer />
   </> 
  );

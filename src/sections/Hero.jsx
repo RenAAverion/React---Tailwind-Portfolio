@@ -35,9 +35,9 @@ function Hero() {
             Web Developer/Designer <br />
             UX/UI Designer
           </h4>
-          <button className="px-4 py-2 border-1 bg-white font-stm rounded-md hover:bg-black hover:text-white transition ease-linear duration-300 text-l md:text-xl">
+          <a href="#contact" className="px-4 py-2 border-1 bg-white font-stm rounded-md hover:bg-black hover:text-white transition ease-linear duration-300 text-l md:text-xl">
             Contact Me
-          </button>
+          </a>
         </div>
       </div>
     </section>

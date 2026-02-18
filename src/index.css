@@ -147,6 +147,20 @@ nav a.active::after {
   animation: scroll 60s linear infinite;
 }
 
+@keyframes scroll2 {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+.animate-scroll2 {
+  animation: scroll2 60s linear infinite;
+}
+
 /* Pause on hover */
 .animate-scroll:hover {
   animation-play-state: paused;

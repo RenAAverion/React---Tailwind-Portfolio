@@ -19,7 +19,7 @@ function MyStack() {
 
       {/* Website content */}
       <div className="relative z-10">
-        <h4 className="font-stm text-2xl md:text-3xl text-white text-center">Tools</h4>
+        <h4 className="font-stm text-2xl md:text-3xl text-white text-center">Tools & Skills</h4>
         <hr className="block border-dashed my-2 bg-white" />
         <p className="text-white font-stm mb-5">
           These are the tools that I have used throughout my academic, personal,
