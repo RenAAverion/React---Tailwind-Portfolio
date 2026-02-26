@@ -93,7 +93,7 @@
 @media (max-width: 768px) {
   #picture::after, #picture::before {
     height: 100%;
-    width: 40%;
+    width: 30%;
     left: 50%;  
     filter: none; 
   }

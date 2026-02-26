@@ -3,7 +3,7 @@ import Gallery from "../modular/GalleryStack";
 
 function MyStack() {
   return (
-    <section id="Stack" className="relative text-center p-8">
+    <section id="Stack" className=" relative text-center p-8">
       {/* Video background iframe - zoomed and centered */}
       <div className="absolute inset-0 overflow-hidden -z-10">
         <iframe 

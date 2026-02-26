@@ -1,9 +1,12 @@
+import WaveDivider from "../modular/wave";
+
 function Hero() {
   return (
     <section
       id="hero"
-      className="flex  mt-30 mb-10 justify-center md:items-center md:mt-0  md:p-0 mad:mb-0 md:flex-col md:h-screen scroll-p-95"
+      className="flex flex-col mt-30 md:mb-10 justify-center md:items-center md:mt-0  md:p-0 mad:mb-0 md:h-screen scroll-p-95"
     >
+      {/* BG Video */}
       <div className="absolute inset-0 overflow-hidden -z-10">
         <iframe
           allow="autoplay"
@@ -11,9 +14,9 @@ function Hero() {
           src="https://player.vimeo.com/video/1167733829?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1"
             className="border-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-full md:h-[200%] pointer-events-none h-[800%] w-[320%]"
         />
-      </div>
+      </div> 
 
-      {/* Dark overlay for better text readability */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60 -z-10"></div>
 
       <div className="flex flex-col md:flex-row">
@@ -39,6 +42,10 @@ function Hero() {
             Contact Me
           </a>
         </div>
+      </div>
+        {/* Section division design */}
+      <div className="md:mt-auto md:absolute md:bottom-0 w-full">
+        <WaveDivider />
       </div>
     </section>
   );
