@@ -123,6 +123,7 @@ export function SitesPreview() {
 
       <div className="flex justify-center mt-8">
         <a
+          onClick={() => alert("Projects Page under Construction")}
           href="/gallery"
           className="text-center px-5 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
         >
