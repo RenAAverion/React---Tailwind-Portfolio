@@ -165,3 +165,73 @@ nav a.active::after {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+
+/* ============================= */
+/* BASE */
+/* ============================= */
+
+.reveal {
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================= */
+/* SLIDE */
+/* ============================= */
+
+.slide-up { transform: translateY(60px); }
+.slide-down { transform: translateY(-60px); }
+.slide-left { transform: translateX(-60px); }
+.slide-right { transform: translateX(60px); }
+
+/* ============================= */
+/* FADE */
+/* ============================= */
+
+.fade { transform: none; }
+
+/* ============================= */
+/* SCALE / POP */
+/* ============================= */
+
+.pop { transform: scale(0.7); }
+.zoom { transform: scale(0.3); }
+
+/* ============================= */
+/* ROTATE */
+/* ============================= */
+
+.rotate { transform: rotate(-10deg) scale(0.8); }
+
+/* ============================= */
+/* FLIP */
+/* ============================= */
+
+.flip {
+  transform: rotateX(90deg);
+  transform-origin: top;
+}
+
+/* ============================= */
+/* BOUNCE */
+/* ============================= */
+
+.bounce {
+  transform: scale(0.5);
+}
+
+.reveal.active.bounce {
+  animation: bounceIn 0.8s ease forwards;
+}
+
+@keyframes bounceIn {
+  60% { transform: scale(1.1); }
+  80% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}

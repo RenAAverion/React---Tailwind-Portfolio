@@ -1,4 +1,5 @@
 import Proofs from "../modular/ProofDocs";
+import Reveal from "../modular/Reveal";
 
 function About() {
   return (
@@ -6,7 +7,8 @@ function About() {
       <div className="px-3 py-5 md:p-5 md:mr-10 md:flex-1">
         <h4 className="font-stm text-black text-2xl md:text-3xl">About Me</h4>
         <hr className="block border-dashed my-2 " />
-        <p className="mb-3 font-stm text-sm text-justify md:text-[1em] ">
+        <Reveal className="fade">
+        <p className="mb-3 font-stm text-sm text-justify md:text-[1em]">
             Hi! I’m Ren, a passionate web developer specializing in modern
           front-end technologies and web/mobile application development. I
           graduated from LSPU with a Bachelor’s degree in Information
@@ -30,6 +32,7 @@ function About() {
           craft web applications that are both functional and delightful for
           users.
         </p>
+        </Reveal>
       </div>
       <div className="m-3 bg-black rounded-md md:flex-1 md:ml-10 p-5">
         <h4 className="font-stm text-2xl md:text-3xl text-white text-center">

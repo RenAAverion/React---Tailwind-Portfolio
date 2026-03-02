@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Reveal from "./Reveal";
 
 //navbar
 function Header() {
@@ -6,7 +7,7 @@ function Header() {
 
   return (
     <div
-      className="flex flex-col justify-center font-stm w-full p-3 fixed w-screen shadow-xl z-[999] bg-white top-0 left-0 md:flex md:flex-row md:justify-between md:p-5  "
+      className="flex flex-col justify-center font-stm w-full p-3 fixed w-screen shadow-xl z-[999] bg-white top-0 left-0 md:flex md:flex-row md:justify-between md:p-5"
       id="nav"
     >
       <h1 className="text-2xl mx-auto md:text-2xl md:mx-0">My Portfolio</h1>

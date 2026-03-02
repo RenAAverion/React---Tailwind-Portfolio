@@ -1,4 +1,5 @@
 import WaveDivider from "../modular/wave";
+import Reveal from "../modular/Reveal";
 
 function Hero() {
   return (
@@ -44,8 +45,11 @@ function Hero() {
         </div>
       </div>
         {/* Section division design */}
+      
       <div className="md:mt-auto md:absolute md:bottom-0 w-full">
+        <Reveal>
         <WaveDivider />
+        </Reveal>
       </div>
     </section>
   );
