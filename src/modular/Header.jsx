@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Reveal from "./Reveal";
 
-//navbar
 function Header() {
   const [active, setActive] = useState("home");
+  const location = useLocation();
+
+  // check if we're on the projects page
+  const isProjectsPage = location.pathname === "/projects";
 
   return (
     <div
@@ -15,8 +19,8 @@ function Header() {
         <ul className="flex space gap-10 justify-center">
           <li>
             <a
-              href="#hero"
-              className={active === "home" ? "active" : ""}
+              href="/#hero"
+              className={active === "home" && !isProjectsPage ? "active" : ""}
               onClick={() => setActive("home")}
             >
               Home
@@ -24,8 +28,8 @@ function Header() {
           </li>
           <li>
             <a
-              href="#about"
-              className={active === "about" ? "active" : ""}
+              href="/#about"
+              className={active === "about" && !isProjectsPage ? "active" : ""}
               onClick={() => setActive("about")}
             >
               About
@@ -33,8 +37,8 @@ function Header() {
           </li>
           <li>
             <a
-              href="#proj"
-              className={active === "proj" ? "active" : ""}
+              href="/#proj"
+              className={isProjectsPage || active === "proj" ? "active" : ""}
               onClick={() => setActive("proj")}
             >
               Projects
@@ -42,8 +46,8 @@ function Header() {
           </li>
           <li>
             <a
-              href="#contact"
-              className={active === "contact" ? "active" : ""}
+              href="/#contact"
+              className={active === "contact" && !isProjectsPage ? "active" : ""}
               onClick={() => setActive("contact")}
             >
               Contact
