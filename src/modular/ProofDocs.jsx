@@ -11,7 +11,7 @@ function Proofs() {
       <a
         target="_blank"
         href={file.link}
-        className="flex justify-center px-2 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+        className="flex justify-center px-2 py-2 border-1 bg-dbl text-white font-stm rounded-md text-m hover:bg-white hover:text-dbl transition ease-linear duration-300"
       >
         {" "}
         View File{" "}

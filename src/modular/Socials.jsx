@@ -10,7 +10,7 @@ export default function Socials (){
           <img
             src={soc.logo}
             alt={soc.name + " soc"}
-            className="h-15 w-15 rounded-md bg-black overflow-hidden shadow-sm p-2 m-2"
+            className="h-15 w-15 rounded-md bg-dbl overflow-hidden shadow-sm p-2 m-2"
           />
         </a>
             <div className='ml-2'> 

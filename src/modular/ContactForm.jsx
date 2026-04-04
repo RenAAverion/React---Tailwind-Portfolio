@@ -47,7 +47,7 @@ export default function ContactForm() {
         {sent && <p className='pt-2 px-2'>Message sent!</p>}
     </div>
     <div className='mt-2 md:mt-0'>
-    <button type="submit" className='text-black px-10 py-2 border-1 bg-white font-stm rounded-md hover:bg-black hover:text-white transition ease-linear duration-300 text-l md:text-xl'>{send}</button>
+    <button type="submit" className='text-dbl px-10 py-2 border-1 bg-white font-stm rounded-md hover:bg-dbl hover:text-white transition ease-linear duration-300 text-l md:text-xl'>{send}</button>
     </div>
   </form>
   )

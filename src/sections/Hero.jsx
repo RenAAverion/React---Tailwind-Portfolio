@@ -18,7 +18,7 @@ function Hero() {
       </div> 
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/60 -z-10"></div>
+      <div className="absolute inset-0 bg-dbl/60 -z-10"></div>
 
       <div className="flex flex-col md:flex-row">
         <div id="picture" className="md:flex md:items-center">
@@ -39,7 +39,7 @@ function Hero() {
             Web Developer/Designer <br />
             UX/UI Designer
           </h4>
-          <a href="#contact" className="px-4 py-2 border-1 bg-white font-stm rounded-md hover:bg-black hover:text-white transition ease-linear duration-300 text-l md:text-xl">
+          <a href="#contact" className="px-4 py-2 border-1 bg-white font-stm rounded-md hover:bg-dbl hover:text-white transition ease-linear duration-300 text-l md:text-xl">
             Contact Me
           </a>
         </div>

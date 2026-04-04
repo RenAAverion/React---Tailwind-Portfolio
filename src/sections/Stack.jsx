@@ -15,7 +15,7 @@ function MyStack() {
       </div>
 
       {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/60 -z-10"></div>
+      <div className="absolute inset-0 bg-dbl/60 -z-10"></div>
 
       {/* Website content */}
       <div className="relative z-10">

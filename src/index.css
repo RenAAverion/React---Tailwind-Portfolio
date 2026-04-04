@@ -7,6 +7,7 @@
 @theme{
   --font-gsc: "Google Sans Code", monospace;
   --font-stm: "Share Tech Mono", monospace;
+  --color-dbl: #121212;
 }
 
 *{
@@ -26,12 +27,12 @@
 
 /* the draggable handle */
 ::-webkit-scrollbar-thumb {
-  background: black;
+  background: var(--color-dbl);
 }
 
 /* the arrows on both ends */
 ::-webkit-scrollbar-button {
-  background: black;
+  background: var(--color-dbl);
   display: block;
   height: 8px;
 }
@@ -120,7 +121,7 @@ nav a::after {
   left: 0;
   width: 0%;
   height: 2px; /* adjust thickness */
-  background: black; /* adjust color */
+  background: var(--color-dbl); /* adjust color */
   transition: width 0.3s ease;
 }
 
@@ -234,4 +235,15 @@ nav a.active::after {
   60% { transform: scale(1.1); }
   80% { transform: scale(0.95); }
   100% { transform: scale(1); }
+}
+
+
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
 }

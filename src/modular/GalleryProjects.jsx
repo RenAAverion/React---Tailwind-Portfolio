@@ -35,7 +35,7 @@ async function checkLink(link) {
   }
 }
 
-function SiteCard({ site }) {
+export function SiteCard({ site }) {
   const [linkStatus, setLinkStatus] = useState(null);
 
   useEffect(() => {
@@ -69,16 +69,17 @@ function SiteCard({ site }) {
           <a
             target="_blank"
             href={linkStatus?.status === "live" ? linkStatus.url : undefined}
-            className="flex flex-1 justify-center items-center px-2 py-1 md:py-2 border-1 bg-black text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+            className="flex flex-1 justify-center items-center px-2 py-1 md:py-2 border-1 bg-dbl text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-dbl transition ease-linear duration-300"
           >
             {linkStatus === null && globe}
             {linkStatus?.status === "live" && globe}
             {linkStatus?.status === "unpublished" && linkSlash}
+            &nbsp;Visit
           </a>
           <a
             target="_blank"
             href={site.preview}
-            className="flex-6 flex items-center justify-center px-2 py-1 md:py-2 border-1 bg-black text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+            className="flex-1 flex items-center justify-center px-2 py-1 md:py-2 border-1 bg-dbl text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-dbl transition ease-linear duration-300"
           >
             Preview
           </a>
@@ -126,7 +127,7 @@ export function SitesPreview() {
       <div className="flex justify-center mt-8">
         <Link
           to="/projects"
-          className="text-center px-5 py-2 border-1 bg-black text-white font-stm rounded-md text-m hover:bg-white hover:text-black transition ease-linear duration-300"
+          className="text-center px-5 py-2 border-1 bg-dbl text-white font-stm rounded-md text-m hover:bg-white hover:text-dbl transition ease-linear duration-300"
         >
           View More
         </Link>
@@ -134,4 +135,5 @@ export function SitesPreview() {
     </div>
   );
 }
+
 export default Sites;

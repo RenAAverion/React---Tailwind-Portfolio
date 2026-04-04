@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-dbl text-white">
       <hr />
       <div className="flex flex-row justify-between md:justify-evenly content-center p-3">
         <p className="font-stm text-xs mdtext-sm">

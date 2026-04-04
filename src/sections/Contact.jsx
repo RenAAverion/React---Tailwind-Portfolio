@@ -13,7 +13,7 @@ const link = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24
 
 export default function Contact (){
    return( 
-   <section id="contact" className="font-stm md:flex md:flex-col p-5 md:p-10 bg-black ">
+   <section id="contact" className="font-stm md:flex md:flex-col p-5 md:p-10 bg-dbl ">
         <h4 className="font-stm text-2xl text-center md:text-3xl text-white">Contact Me</h4>
         <hr className="block border-dashed my-2 bg-white" />
         <div className="md:flex md:p-8">

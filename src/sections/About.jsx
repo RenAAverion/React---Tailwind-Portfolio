@@ -5,7 +5,7 @@ function About() {
   return (
     <section id="about" className="bg-white md:p-10 md:flex md:content-around ">
       <div className="px-3 py-5 md:p-5 md:mr-10 md:flex-1">
-        <h4 className="font-stm text-black text-2xl md:text-3xl">About Me</h4>
+        <h4 className="font-stm text-dbl text-2xl md:text-3xl">About Me</h4>
         <hr className="block border-dashed my-2 " />
         <Reveal className="fade">
         <p className="mb-3 font-stm text-sm text-justify md:text-[1em]">
@@ -34,7 +34,7 @@ function About() {
         </p>
         </Reveal>
       </div>
-      <div className="m-3 bg-black rounded-md md:flex-1 md:ml-10 p-5">
+      <div className="m-3 bg-dbl rounded-md md:flex-1 md:ml-10 p-5">
         <h4 className="font-stm text-2xl md:text-3xl text-white text-center">
           Relevant Files
         </h4>
