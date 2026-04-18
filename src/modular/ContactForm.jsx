@@ -34,20 +34,20 @@ export default function ContactForm() {
     <div className='md:flex md:flex-1 md:mb-2 md:gap-2'>
         <div className='flex flex-col mb-2 md:flex-1 md:mb-0'>
             <label htmlFor="name">Name:</label>
-            <input className='p-2 border-white border-[1px] rounded-md' type="text" name="name" placeholder="Your Name" />
+            <input className='p-2 border-white border rounded-md' type="text" name="name" placeholder="Your Name" />
         </div>
         <div className='flex flex-col mb-2 md:flex-1 md:mb-0'>
             <label htmlFor="email">Email:</label>
-            <input className='p-2 border-white border-[1px] rounded-md' type="email" name="email" placeholder="Your Email" />
+            <input className='p-2 border-white border not-first-of-type:rounded-md' type="email" name="email" placeholder="Your Email" />
         </div>
     </div>
     <div className='flex flex-col flex-1 md:mb-2'>
-        <label htmlFor="message">Email:</label>
-        <textarea name="message" placeholder="Your message" className='resize-none h-[10em] p-2 border-white border-[1px] rounded-md' />
+        <label htmlFor="message">Message:</label>
+        <textarea name="message" placeholder="Your message" className='resize-none h-[10em] p-2 border-white border rounded-md' />
         {sent && <p className='pt-2 px-2'>Message sent!</p>}
     </div>
     <div className='mt-2 md:mt-0'>
-    <button type="submit" className='text-dbl px-10 py-2 border-1 bg-white font-stm rounded-md hover:bg-dbl hover:text-white transition ease-linear duration-300 text-l md:text-xl'>{send}</button>
+    <button type="submit" className='text-dbl px-10 py-2 border bg-white font-stm rounded-md hover:bg-dbl hover:text-white transition ease-linear duration-300 text-l md:text-xl'>{send}</button>
     </div>
   </form>
   )
