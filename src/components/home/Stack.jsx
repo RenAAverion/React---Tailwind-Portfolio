@@ -1,16 +1,18 @@
 //my skills and tools
-import Gallery from "../modular/GalleryStack";
+import Gallery from "./GalleryStack.jsx";
 
 function MyStack() {
   return (
-    <section id="Stack" className=" relative text-center p-8">
+    <section id="Stack" className="relative isolate overflow-hidden bg-dbl text-center p-8">
       {/* Video background iframe - zoomed and centered */}
-      <div className="absolute inset-0 overflow-hidden -z-10">
+      <div className="section-video absolute inset-0 overflow-hidden -z-10" aria-hidden="true">
         <iframe 
           allow="autoplay" 
           allowFullScreen 
+          title="Tools and skills background video"
+          tabIndex={-1}
           src="https://streamable.com/e/4irkwc?autoplay=1&loop=1&muted=1" 
-          className="border-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200%] w-[170%] md:w-full md:h-[500%] pointer-events-none "
+          className="pointer-events-none border-none"
         />
       </div>
 

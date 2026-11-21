@@ -1,0 +1,16 @@
+{
+  "Simple": {
+    "name": "Simple.biz",
+    "logo": "https://i.ibb.co/fzBWZSbb/simplelogo.png",
+    "description": "Website development and digital solutions, including Duda websites, SEO, CRM, and multimedia content.",
+    "fullDescription": "Simple.biz builds custom websites and provides digital marketing services for small businesses. Its website service includes design, written content, service and location pages, and search optimisation. The company also offers ongoing SEO through its Turbo SEO service and paid search advertising through SmartClicks. Clients can request unlimited website edits and contact their developer by phone, text, email, or an edit ticket. Alongside website development, Simple offers help with lead responses and appointment scheduling to support businesses after an enquiry arrives.",
+    "url": "https://www.simple.biz/"
+  },
+  "SMP": {
+    "name": "Seek Marketing Partners",
+    "logo": "https://seekmarketingpartners.com/static/005a0324c729c2a7e9198de2ef901248/cae85/Logo.png",
+    "description": "A digital marketing agency offering web design and development, SEO, paid advertising, content marketing, and analytics.",
+    "fullDescription": "Seek Marketing Partners is a UK digital marketing agency based in Bury, England. Its services include web design and development, search engine optimisation, PPC advertising, content and email marketing, social media, graphic design, and data analytics. It also offers conversion rate optimisation, digital PR, lead generation, and white-label services. The agency works alongside clients' existing teams, combining strategy, creative work, and performance reporting. Its process starts with a consultation and a tailored plan, followed by implementation, ongoing optimisation, and regular updates based on campaign results.",
+    "url": "https://seekmarketingpartners.com/"
+  }
+}

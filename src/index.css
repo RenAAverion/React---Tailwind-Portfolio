@@ -102,14 +102,11 @@
   #picture::before {
     filter: blur(0.75rem); /* reduce blur on mobile */
   }
-  .animate-scroll {
-    animation: scroll 8s linear infinite !important;
-  }
 }
 
 nav a {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   text-decoration: none;
 }
 
@@ -117,7 +114,7 @@ nav a {
 nav a::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: calc(50% - 0.75em);
   left: 0;
   width: 0%;
   height: 2px; /* adjust thickness */
@@ -135,38 +132,46 @@ nav a.active::after {
   width: 100%;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.section-video {
+  container-type: size;
 }
 
-.animate-scroll {
-  animation: scroll 60s linear infinite;
+/* Cover each section with a 16:9 player; object-fit cannot crop iframe content. */
+.section-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100cqw, 177.78cqh);
+  height: max(100cqh, 56.25cqw);
+  transform: translate(-50%, -50%);
 }
 
-@keyframes scroll2 {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+.favorites-swiper {
+  --swiper-navigation-color: white;
+  --swiper-navigation-size: 24px;
+  --swiper-pagination-color: white;
+  --swiper-pagination-bullet-inactive-color: white;
+  --swiper-pagination-bullet-inactive-opacity: 0.4;
+  --swiper-pagination-top: 12px;
+  --swiper-pagination-bottom: auto;
 }
 
-
-.animate-scroll2 {
-  animation: scroll2 60s linear infinite;
+.project-coverflow {
+  --swiper-navigation-color: #121212;
+  --swiper-navigation-size: 24px;
 }
 
-/* Pause on hover */
-.animate-scroll:hover {
-  animation-play-state: paused;
+.project-coverflow .swiper-slide {
+  visibility: hidden;
 }
 
+.project-coverflow .swiper-slide-active,
+.project-coverflow .swiper-slide-prev,
+.project-coverflow .swiper-slide-next,
+.project-coverflow .swiper-slide:has(+ .swiper-slide-prev),
+.project-coverflow .swiper-slide-next + .swiper-slide {
+  visibility: visible;
+}
 
 /* ============================= */
 /* BASE */

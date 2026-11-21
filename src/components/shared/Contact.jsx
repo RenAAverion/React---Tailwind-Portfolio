@@ -1,5 +1,5 @@
-import ContactForm from "../modular/ContactForm"
-import Socials from "../modular/Socials"
+import ContactForm from "./ContactForm.jsx"
+import Socials from "./Socials.jsx"
 
 const email = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-10">
 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -16,14 +16,14 @@ export default function Contact (){
    <section id="contact" className="font-stm md:flex md:flex-col p-5 md:p-10 bg-dbl ">
         <h4 className="font-stm text-2xl text-center md:text-3xl text-white">Contact Me</h4>
         <hr className="block border-dashed my-2 bg-white" />
-        <div className="md:flex md:p-8">
-            <div className="p-2 bg-white rounded-md md:p-5 md:flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 lg:p-8">
+            <div className="min-w-0 p-3 bg-white rounded-md sm:p-5">
                 <h4 className="font-stm  text-xl mb-3 flex  justify-center items-center md:justify-start gap-2">{link} Socials</h4>
                 <div>
                     <Socials />
                 </div>
             </div>
-            <div className="p-2 text-white md:p-5 md:flex-1">
+            <div className="min-w-0 p-3 text-white sm:p-5">
                 <h4 className="font-stm  text-xl mb-3 flex  justify-center items-center md:justify-start gap-2">{email} Email</h4>
                     <ContactForm/>
             </div>
@@ -31,3 +31,4 @@ export default function Contact (){
     </section>
     )
 }
+

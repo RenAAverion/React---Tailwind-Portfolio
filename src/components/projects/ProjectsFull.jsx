@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import Header from "../modular/Header";
-import Reveal from "../modular/Reveal";
-import sitesData from "/Datas/Websites.json"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import sitesData, { companies } from "../../data/projects.js"
+import companyDetails from "/Datas/companies.json"
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
 const tag = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
@@ -35,20 +40,6 @@ const FilterIcon = () => (
     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
   </svg>
 );
-
-const ChevronLeft = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
-
-const ChevronRight = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-);
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function getLinkStatus(link) {
   if (!link || link === "Unpublished") return { status: "unpublished", url: null };
@@ -124,41 +115,25 @@ function SiteCard({ site }) {
 // ─── FavoritesSlideshow ───────────────────────────────────────────────────────
 
 function FavoritesSlideshow({ favorites }) {
-  const [current, setCurrent] = useState(0);
-  const timerRef = useRef(null);
-
-  const go = (dir) => {
-    setCurrent((c) => (c + dir + favorites.length) % favorites.length);
-    restart();
-  };
-
-  const jumpTo = (i) => {
-    setCurrent(i);
-    restart();
-  };
-
-  const restart = () => {
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(
-      () => setCurrent((c) => (c + 1) % favorites.length),
-      4500
-    );
-  };
-
-  useEffect(() => {
-    timerRef.current = setInterval(
-      () => setCurrent((c) => (c + 1) % favorites.length),
-      4500
-    );
-    return () => clearInterval(timerRef.current);
-  }, [favorites.length]);
-
-  const site = favorites[current];
-  const linkStatus = getLinkStatus(site.link);
-
   return (
-    <div className="relative h-full min-h-[280px] md:min-h-[720px] overflow-hidden rounded-md group cursor-default select-none font-stm">
-      {/* BG image — key forces re-mount on slide change for fade */}
+    <Swiper
+      modules={[A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination]}
+      effect="fade"
+      fadeEffect={{ crossFade: true }}
+      speed={700}
+      loop={favorites.length > 1}
+      autoplay={favorites.length > 1 ? { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
+      navigation={favorites.length > 1}
+      pagination={favorites.length > 1 ? { clickable: true } : false}
+      keyboard={{ enabled: true }}
+      a11y={{ containerMessage: "Favorite projects" }}
+      className="favorites-swiper w-full min-w-0 rounded-md font-stm"
+    >
+      {favorites.map((site) => {
+        const linkStatus = getLinkStatus(site.link);
+        return (
+          <SwiperSlide key={site.company + site.name}>
+            <div className="relative min-h-[280px] sm:min-h-[400px] lg:min-h-[560px] overflow-hidden">
       <img
         key={site.snapshot}
         src={site.snapshot}
@@ -202,46 +177,24 @@ function FavoritesSlideshow({ favorites }) {
         </div>
       </div>
 
-      {/* Prev / Next */}
-      <button
-        onClick={() => go(-1)}
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-dbl/40 hover:bg-dbl/70 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        <ChevronLeft />
-      </button>
-      <button
-        onClick={() => go(1)}
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-dbl/40 hover:bg-dbl/70 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        <ChevronRight />
-      </button>
-
-      {/* Dot indicators */}
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {favorites.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => jumpTo(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === current ? "w-5 bg-white" : "w-1.5 bg-white/40"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
+            </div>
+          </SwiperSlide>
+        );
+      })}
+    </Swiper>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-
 export default function PortfolioGallery() {
+  const [selectedCompany, setSelectedCompany] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef(null);
 
-  const favorites = sitesData.filter((s) => s.fav);
-  const categories = getCategories(sitesData);
+  const companySites = sitesData.filter((site) => selectedCompany === "All" || site.company === selectedCompany);
+  const favorites = companySites.filter((s) => s.fav);
+  const categories = getCategories(companySites);
 
   // Close filter dropdown when clicking outside
   useEffect(() => {
@@ -256,7 +209,7 @@ export default function PortfolioGallery() {
 
   const isFiltering = search.trim() !== "" || selectedCategory !== "All";
 
-  const filtered = sitesData.filter((site) => {
+  const filtered = companySites.filter((site) => {
     const q = search.toLowerCase().trim();
     const matchesSearch =
       !q ||
@@ -269,20 +222,20 @@ export default function PortfolioGallery() {
   });
 
   return (
-    <div className="min-h-screen bg-[#F0F0F0] pt-[70px]">
-      <main className="px-4 md:px-8 py-6 max-w-screen mx-auto font-stm">
+    <div className="min-h-screen bg-[#F0F0F0] pt-28 md:pt-24">
+      <main className="px-4 md:px-8 py-6 max-w-[1600px] mx-auto font-stm">
         {/* ── Search + Filter ── */}
-        <div className="flex flex-col md:flex-row items-center justify-between mb-6">
+        <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 mb-6">
             <div className="py-2 ">
                 <p className="text-2xl font-semibold">Projects</p>
             </div>
-            <div className="flex gap-3 flex-wrap justify-center">
+            <div className="flex w-full xl:w-auto gap-3 flex-wrap items-center">
             <input
                 type="text"
                 placeholder="Search projects..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-56 md:w-72 px-3 py-2 rounded-md border border-gray-200 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-dbl transition"
+                className="w-full sm:w-64 min-w-0 px-3 py-2 rounded-md border border-gray-200 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-dbl transition"
             />
 
             <div className="relative" ref={filterRef}>
@@ -327,16 +280,55 @@ export default function PortfolioGallery() {
                 </div>
                 )}
             </div>
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span>Company:</span>
+              <div role="group" aria-label="Company" className="flex items-center flex-wrap gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+              {["All", ...companies].map((company) => (
+                <button
+                  key={company}
+                  type="button"
+                  aria-pressed={selectedCompany === company}
+                  onClick={() => { setSelectedCompany(company); setSelectedCategory("All"); setFilterOpen(false); }}
+                  className={`rounded px-3 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${selectedCompany === company ? "bg-dbl text-white" : "hover:bg-gray-100"}`}
+                >
+                  {company}
+                </button>
+              ))}
+              </div>
+            </div>
             </div>
         </div>
         <hr className="block border-dashed my-2 " />
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 my-5">
+          {companies.filter((company) => selectedCompany === "All" || selectedCompany === company).map((company) => {
+            const details = companyDetails[company];
+            if (!details) return null;
+            return (
+              <article key={company} className={`flex flex-col sm:flex-row sm:items-center rounded-md border border-gray-200 bg-white shadow-sm ${selectedCompany === "All" ? "min-h-32 gap-4 p-4" : "col-span-full min-h-64 gap-6 p-6 md:gap-10 md:p-8"}`}>
+                <img src={details.logo} alt={`${details.name} logo`} className={`shrink-0 object-contain ${selectedCompany === "All" ? "h-16 w-24" : "h-32 w-48"}`} />
+                <div className={`flex flex-1 min-w-0 gap-4 ${selectedCompany === "All" ? "flex-col sm:flex-row sm:items-center" : "flex-col items-start"}`}>
+                <div className="flex-1">
+                  <h2 className={`font-semibold ${selectedCompany === "All" ? "text-lg" : "text-2xl md:text-3xl"}`}>{details.name}</h2>
+                  <p className={`mt-1 text-gray-500 ${selectedCompany === "All" ? "text-sm" : "text-base md:text-lg leading-relaxed"}`}>{selectedCompany === "All" ? details.description : (details.fullDescription || details.description)}</p>
+                </div>
+                <a href={details.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${details.name} (opens in a new tab)`} className={`inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-dbl bg-dbl px-3 py-2 text-sm text-white hover:bg-white hover:text-dbl transition-colors ${selectedCompany === "All" ? "self-start sm:self-center" : "self-start"}`}>
+                  Visit
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
+                  </svg>
+                </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
         {/* ── Default view: favorites panel + grid ── */}
         {!isFiltering ? (
           <>
-            <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2">
+            {favorites.length > 0 && <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2">
               <StarIcon filled className="w-4 h-4 text-yellow-500" />
               Personal Favorites
-            </h2>
+            </h2>}
 
             {/*
               Grid layout:
@@ -344,14 +336,15 @@ export default function PortfolioGallery() {
               - Col 3-6: Normal project cards
               On mobile: slideshow takes full width (2 cols of a 2-col grid), then cards below
             */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
               {/* Favorites slideshow — 2×2 */}
-              <div className="col-span-1 md:col-span-5 shadow-xl md:mb-5 border-2 rounded-lg border-yellow-500">
-                <FavoritesSlideshow favorites={favorites} />
-              </div>
+              {favorites.length > 0 && <div className="col-span-full min-w-0 shadow-xl md:mb-5 border-2 rounded-lg border-yellow-500">
+                <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
+              </div>}
 
               {/* All project cards */}
-              {sitesData.map((site) => (
+              {companySites.length === 0 && <p className="col-span-full py-20 text-center text-sm text-gray-500">{selectedCompany === "All" ? "No projects added yet." : `No projects added for ${selectedCompany} yet.`}</p>}
+              {companySites.map((site) => (
                 <div key={site.name} className="col-span-1">
                   <SiteCard site={site} />
                 </div>
@@ -361,9 +354,9 @@ export default function PortfolioGallery() {
         ) : (
           /* ── Filtered view ── */
           <>
-            <div className="col-span-3 md:col-span-6 shadow-xl md:mb-5">
-                <FavoritesSlideshow favorites={favorites} />
-            </div>
+            {favorites.length > 0 && <div className="col-span-3 md:col-span-6 shadow-xl md:mb-5">
+                <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
+            </div>}
             <p className="text-sm text-gray-500 mb-4">
               {filtered.length} result{filtered.length !== 1 ? "s" : ""}
               {search && <> for "<span className="font-medium text-gray-800">{search}</span>"</>}
@@ -377,7 +370,7 @@ export default function PortfolioGallery() {
                 No projects found. Try a different search or category.
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
                 {filtered.map((site) => (
                   <div key={site.name}>
                     <SiteCard site={site} />
@@ -391,3 +384,4 @@ export default function PortfolioGallery() {
     </div>
   );
 }
+

@@ -1,10 +1,10 @@
-import Proofs from "../modular/ProofDocs";
-import Reveal from "../modular/Reveal";
+import Proofs from "./ProofDocs.jsx";
+import Reveal from "../shared/Reveal.jsx";
 
 function About() {
   return (
-    <section id="about" className="bg-white md:p-10 md:flex md:content-around ">
-      <div className="px-3 py-5 md:p-5 md:mr-10 md:flex-1">
+    <section id="about" className="bg-white md:p-10 lg:flex lg:content-around ">
+      <div className="px-3 py-5 md:p-5 lg:mr-6 lg:flex-1 min-w-0">
         <h4 className="font-stm text-dbl text-2xl md:text-3xl">About Me</h4>
         <hr className="block border-dashed my-2 " />
         <Reveal className="fade">
@@ -34,7 +34,7 @@ function About() {
         </p>
         </Reveal>
       </div>
-      <div className="m-3 bg-dbl rounded-md md:flex-1 md:ml-10 p-5">
+      <div className="m-3 bg-dbl rounded-md lg:flex-1 lg:ml-6 min-w-0 p-5">
         <h4 className="font-stm text-2xl md:text-3xl text-white text-center">
           Relevant Files
         </h4>
@@ -46,3 +46,4 @@ function About() {
 }
 
 export default About;
+
