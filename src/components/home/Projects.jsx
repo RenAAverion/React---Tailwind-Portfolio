@@ -5,8 +5,8 @@ const Websites = data.default || data;
 
 function Projects() {
   return (
-    <section id="proj" className="px-4 py-8 sm:p-6 lg:p-10">
-      <div>
+    <section id="proj" className="py-8 lg:py-10">
+      <div className="site-container">
         <h4 className="font-stm text-3xl text-dbl mb-3 text-center">
           {" "}
           {"Projects (" +  Websites.length + ")"}{" "}

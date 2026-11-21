@@ -1,3 +1,4 @@
+import ProjectDropdown from './ProjectDropdown.jsx';
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules';
@@ -35,9 +36,9 @@ const StarIcon = ({ filled = false, className = "w-3.5 h-3.5" }) => (
   </svg>
 );
 
-const FilterIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+const FilterIcon = ({ open = false }) => (
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    {open ? <path strokeLinecap="round" d="m6 6 12 12M6 18 18 6" /> : <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />}
   </svg>
 );
 
@@ -54,11 +55,11 @@ function getCategories(data) {
 
 // ─── SiteCard ─────────────────────────────────────────────────────────────────
 
-function SiteCard({ site }) {
+function SiteCard({ site, view = "grid" }) {
   const linkStatus = getLinkStatus(site.link);
 
   return (
-    <div className="h-full flex flex-col rounded-md shadow-sm border border-gray-100 relative overflow-hidden bg-white hover:shadow-md transition-shadow duration-200">
+    <div data-project-card className={`h-full flex rounded-md shadow-sm border border-gray-100 relative overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 ${view === "list" ? "flex-col sm:flex-row" : "flex-col"}`}>
       {/* Category badge */}
       <span className="flex items-center gap-1 absolute m-2 px-1.5 py-0.5 rounded bg-white/90 right-0 shadow-sm z-10 text-xs text-gray-500 max-w-[70%] truncate">
         {site.fav && <StarIcon filled className="w-3 h-3 text-yellow-500 shrink-0" />}
@@ -68,12 +69,13 @@ function SiteCard({ site }) {
       <img
         src={site.snapshot}
         alt={site.name + " preview"}
-        className="w-full h-28 md:h-44 object-cover"
+        loading="lazy"
+        className={`object-cover ${view === "list" ? "w-full h-36 sm:w-48 sm:h-auto sm:shrink-0" : "w-full h-28 md:h-44"}`}
       />
 
-      <div className="py-1 px-1 flex-1 flex flex-col justify-between">
-        <div className="text-center px-2 md:px-5 py-2 md:py-4">
-          <h4 className="font-stm text-sm md:text-base font-semibold mb-1 h-8 md:h-12 flex items-center justify-center leading-tight">
+      <div className="py-1 px-1 min-w-0 flex-1 flex flex-col justify-between">
+        <div className={`px-2 md:px-5 py-2 md:py-4 ${view === "list" ? "text-left sm:pr-40" : "text-center"}`}>
+          <h4 className={`font-stm text-sm md:text-base font-semibold mb-1 leading-tight ${view === "list" ? "min-h-8" : "min-h-8 md:min-h-12 flex items-center justify-center"}`}>
             {site.name}
           </h4>
           <p className="mt-1 font-stm text-xs md:text-sm text-gray-500 line-clamp-3 h-14">
@@ -88,7 +90,7 @@ function SiteCard({ site }) {
             rel="noopener noreferrer"
             href={linkStatus.status === "live" ? linkStatus.url : undefined}
             title={linkStatus.status === "unpublished" ? "Not published" : "Visit site"}
-            className={`flex flex-3 justify-center items-center px-2 py-1.5 border border-dbl bg-dbl text-white rounded-md text-xs
+            className={`flex ${view === "list" ? "w-28 shrink-0" : "flex-3"} justify-center items-center px-2 py-1.5 border border-dbl bg-dbl text-white rounded-md text-xs
               hover:bg-white hover:text-dbl transition ease-linear duration-300
               ${linkStatus.status === "unpublished" ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
           >
@@ -101,8 +103,8 @@ function SiteCard({ site }) {
             target="_blank"
             rel="noopener noreferrer"
             href={site.preview}
-            className="flex-[3] flex items-center justify-center px-2 py-1.5 border border-dbl bg-white text-dbl rounded-md text-xs
-              hover:bg-dbl hover:text-white transition ease-linear duration-300"
+            className={`${view === "list" ? "w-28 shrink-0" : "flex-[3]"} flex items-center justify-center px-2 py-1.5 border border-dbl bg-white text-dbl rounded-md text-xs
+              hover:bg-dbl hover:text-white transition ease-linear duration-300`}
           >
             Preview
           </a>
@@ -185,27 +187,76 @@ function FavoritesSlideshow({ favorites }) {
   );
 }
 
+const gridLayouts = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 sm:grid-cols-2",
+  3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+  5: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
+};
+
+export function ProjectResults({ projects, view, columns }) {
+  const [rows, setRows] = useState(2);
+  const [rowSize, setRowSize] = useState(1);
+  const gridRef = useRef(null);
+  const loadRef = useRef(null);
+  const visibleCount = Math.min(rows * rowSize, projects.length);
+  const hasMore = visibleCount < projects.length;
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const measure = () => setRowSize(getComputedStyle(grid).gridTemplateColumns.split(" ").length);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(grid);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (loadRef.current?.getBoundingClientRect().top < window.innerHeight + 200) {
+          setRows((count) => count + 1);
+        }
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [hasMore]);
+
+  return (
+    <>
+      <div ref={gridRef} className={`grid gap-3 ${view === "list" ? "grid-cols-1" : gridLayouts[columns]}`}>
+        {projects.slice(0, visibleCount).map((site) => (
+          <SiteCard key={site.company + site.name} site={site} view={view} />
+        ))}
+      </div>
+      <div className="py-6 text-center text-sm text-gray-500">
+        <p aria-live="polite">{visibleCount} of {projects.length} projects</p>
+        {hasMore && <button ref={loadRef} type="button" onClick={() => setRows((count) => count + 1)} className="mt-3 rounded-md border border-dbl px-4 py-2 text-dbl hover:bg-dbl hover:text-white transition-colors">Load more</button>}
+      </div>
+    </>
+  );
+}
+
 export default function PortfolioGallery() {
+  const [view, setView] = useState("grid");
+  const [columns, setColumns] = useState(5);
   const [selectedCompany, setSelectedCompany] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filterOpen, setFilterOpen] = useState(false);
-  const filterRef = useRef(null);
 
   const companySites = sitesData.filter((site) => selectedCompany === "All" || site.company === selectedCompany);
   const favorites = companySites.filter((s) => s.fav);
   const categories = getCategories(companySites);
-
-  // Close filter dropdown when clicking outside
-  useEffect(() => {
-    const handler = (e) => {
-      if (filterRef.current && !filterRef.current.contains(e.target)) {
-        setFilterOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
 
   const isFiltering = search.trim() !== "" || selectedCategory !== "All";
 
@@ -223,7 +274,7 @@ export default function PortfolioGallery() {
 
   return (
     <div className="min-h-screen bg-[#F0F0F0] pt-28 md:pt-24">
-      <main className="px-4 md:px-8 py-6 max-w-[1600px] mx-auto font-stm">
+      <main className="site-container py-6 font-stm">
         {/* ── Search + Filter ── */}
         <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 mb-6">
             <div className="py-2 ">
@@ -238,48 +289,7 @@ export default function PortfolioGallery() {
                 className="w-full sm:w-64 min-w-0 px-3 py-2 rounded-md border border-gray-200 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-dbl transition"
             />
 
-            <div className="relative" ref={filterRef}>
-                <button
-                onClick={() => setFilterOpen((o) => !o)}
-                className={`flex text-white bg-dbl items-center gap-2 px-3 py-2 rounded-md border text-sm shadow-sm transition
-                    ${selectedCategory !== "All"
-                    ? "border-dbl bg-dbl text-dbl"
-                    : "border-gray-200 bg-dbl text-gray-700 hover:border-gray-400"
-                    }`}
-                >
-                <FilterIcon />
-                <span className="max-w-[140px] truncate">
-                    {selectedCategory === "All" ? "Filter by category" : selectedCategory}
-                </span>
-                {selectedCategory !== "All" && (
-                    <span
-                    role="button"
-                    onClick={(e) => { e.stopPropagation(); setSelectedCategory("All"); }}
-                    className="ml-1 text-gray-300 hover:text-white text-base leading-none"
-                    >
-                    ×
-                    </span>
-                )}
-                </button>
-
-                {filterOpen && (
-                <div className="absolute right-0 mt-1 w-60 bg-white border border-gray-200 rounded-md shadow-xl z-20 max-h-72 overflow-y-auto">
-                    {categories.map((cat) => (
-                    <button
-                        key={cat}
-                        onClick={() => { setSelectedCategory(cat); setFilterOpen(false); }}
-                        className={`w-full text-left px-4 py-2 text-sm transition
-                        ${selectedCategory === cat
-                            ? "bg-dbl text-white font-semibold"
-                            : "hover:bg-gray-50 text-gray-700"
-                        }`}
-                    >
-                        {cat}
-                    </button>
-                    ))}
-                </div>
-                )}
-            </div>
+            <ProjectDropdown label="Filter by category" value={selectedCategory} onChange={setSelectedCategory} options={categories.map((category) => ({ value: category, label: category === "All" ? "Filter by category" : category }))} icon={(open) => <FilterIcon open={open} />} />
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <span>Company:</span>
               <div role="group" aria-label="Company" className="flex items-center flex-wrap gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
@@ -288,7 +298,7 @@ export default function PortfolioGallery() {
                   key={company}
                   type="button"
                   aria-pressed={selectedCompany === company}
-                  onClick={() => { setSelectedCompany(company); setSelectedCategory("All"); setFilterOpen(false); }}
+                  onClick={() => { setSelectedCompany(company); setSelectedCategory("All"); }}
                   className={`rounded px-3 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${selectedCompany === company ? "bg-dbl text-white" : "hover:bg-gray-100"}`}
                 >
                   {company}
@@ -296,6 +306,16 @@ export default function PortfolioGallery() {
               ))}
               </div>
             </div>
+            <div role="group" aria-label="Project view" className="flex items-center gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+              {["grid", "list"].map((mode) => (
+                <button key={mode} type="button" aria-label={mode === "grid" ? "Grid view" : "List view"} title={mode === "grid" ? "Grid view" : "List view"} aria-pressed={view === mode} onClick={() => setView(mode)} className={`flex h-8 w-10 items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${view === mode ? "bg-dbl text-white" : "hover:bg-gray-100"}`}>
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-5">
+                    {mode === "grid" ? <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></> : <><path strokeLinecap="round" d="M9 5h12M9 12h12M9 19h12" /><path strokeLinecap="round" strokeWidth="3" d="M3 5h1M3 12h1M3 19h1" /></>}
+                  </svg>
+                </button>
+              ))}
+            </div>
+            {view === "grid" && <ProjectDropdown label="Projects per row (limited by screen width)" value={columns} onChange={setColumns} options={[1, 2, 3, 4, 5].map((count) => ({ value: count, label: count + " / row" }))} />}
             </div>
         </div>
         <hr className="block border-dashed my-2 " />
@@ -322,63 +342,17 @@ export default function PortfolioGallery() {
             );
           })}
         </div>
-        {/* ── Default view: favorites panel + grid ── */}
-        {!isFiltering ? (
-          <>
-            {favorites.length > 0 && <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2">
-              <StarIcon filled className="w-4 h-4 text-yellow-500" />
-              Personal Favorites
-            </h2>}
-
-            {/*
-              Grid layout:
-              - Col 1-2: Favorites slideshow spanning 2 cols + 2 rows
-              - Col 3-6: Normal project cards
-              On mobile: slideshow takes full width (2 cols of a 2-col grid), then cards below
-            */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-              {/* Favorites slideshow — 2×2 */}
-              {favorites.length > 0 && <div className="col-span-full min-w-0 shadow-xl md:mb-5 border-2 rounded-lg border-yellow-500">
-                <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
-              </div>}
-
-              {/* All project cards */}
-              {companySites.length === 0 && <p className="col-span-full py-20 text-center text-sm text-gray-500">{selectedCompany === "All" ? "No projects added yet." : `No projects added for ${selectedCompany} yet.`}</p>}
-              {companySites.map((site) => (
-                <div key={site.name} className="col-span-1">
-                  <SiteCard site={site} />
-                </div>
-              ))}
-            </div>
-          </>
+        {favorites.length > 0 && <>
+          {!isFiltering && <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2"><StarIcon filled className="w-4 h-4" />Personal Favorites</h2>}
+          <div className="min-w-0 shadow-xl mb-5 border-2 rounded-lg border-yellow-500">
+            <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
+          </div>
+        </>}
+        {isFiltering && <p className="text-sm text-gray-500 mb-4">{filtered.length} result{filtered.length !== 1 ? "s" : ""}</p>}
+        {filtered.length === 0 ? (
+          <p className="py-20 text-center text-sm text-gray-500">{isFiltering ? "No projects found. Try a different search or category." : selectedCompany === "All" ? "No projects added yet." : `No projects added for ${selectedCompany} yet.`}</p>
         ) : (
-          /* ── Filtered view ── */
-          <>
-            {favorites.length > 0 && <div className="col-span-3 md:col-span-6 shadow-xl md:mb-5">
-                <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
-            </div>}
-            <p className="text-sm text-gray-500 mb-4">
-              {filtered.length} result{filtered.length !== 1 ? "s" : ""}
-              {search && <> for "<span className="font-medium text-gray-800">{search}</span>"</>}
-              {selectedCategory !== "All" && (
-                <> in <span className="font-medium text-gray-800">{selectedCategory}</span></>
-              )}
-            </p>
-
-            {filtered.length === 0 ? (
-              <div className="text-center py-28 text-gray-400 text-sm">
-                No projects found. Try a different search or category.
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-                {filtered.map((site) => (
-                  <div key={site.name}>
-                    <SiteCard site={site} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
+          <ProjectResults key={JSON.stringify([selectedCompany, selectedCategory, search, view, columns])} projects={filtered} view={view} columns={columns} />
         )}
       </main>
     </div>

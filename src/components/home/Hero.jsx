@@ -21,7 +21,7 @@ function Hero() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-dbl/60 -z-10"></div>
 
-      <div className="flex w-full max-w-6xl flex-col md:flex-row items-center px-4 md:px-8">
+      <div className="site-container flex flex-col md:flex-row items-center justify-center">
         <div id="picture" className="shrink-0 md:flex md:items-center">
           <img
             src="https://i.ibb.co/bjc6hQSs/371083425-324521823543726-8201669079437847996-n.jpg"

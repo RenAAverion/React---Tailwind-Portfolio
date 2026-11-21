@@ -13,10 +13,11 @@ const link = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24
 
 export default function Contact (){
    return( 
-   <section id="contact" className="font-stm md:flex md:flex-col p-5 md:p-10 bg-dbl ">
+   <section id="contact" className="font-stm py-5 md:py-10 bg-dbl">
+      <div className="site-container">
         <h4 className="font-stm text-2xl text-center md:text-3xl text-white">Contact Me</h4>
         <hr className="block border-dashed my-2 bg-white" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 lg:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 lg:py-8">
             <div className="min-w-0 p-3 bg-white rounded-md sm:p-5">
                 <h4 className="font-stm  text-xl mb-3 flex  justify-center items-center md:justify-start gap-2">{link} Socials</h4>
                 <div>
@@ -28,6 +29,7 @@ export default function Contact (){
                     <ContactForm/>
             </div>
         </div>
+      </div>
     </section>
     )
 }

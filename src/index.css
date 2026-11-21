@@ -10,6 +10,16 @@
   --color-dbl: #121212;
 }
 
+@utility site-container {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
 *{
   scroll-behavior: smooth;
   scroll-padding: 70px;

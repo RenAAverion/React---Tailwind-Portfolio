@@ -129,7 +129,7 @@ export function SitesPreview() {
         autoplay={{ enabled: true, delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: false }}
         keyboard={{ enabled: true }}
         a11y={{ containerMessage: "Project previews" }}
-        className="project-coverflow w-full max-w-7xl min-w-0 !pt-6 sm:!pt-10 !pb-12"
+        className="project-coverflow w-full min-w-0 !pt-6 sm:!pt-10 !pb-12"
       >
         {Websites.map((site) => (
           <SwiperSlide key={site.company + site.name} className="!w-56 !h-[340px] md:!w-80 md:!h-[500px]">
