@@ -29,7 +29,22 @@ an empty state until its first project is added.
 
 Run `npm run build` after editing to check the JSON and build.
 
-## Development
+## Search and social previews
+
+Edit `src/data/seo.js` to change page titles, descriptions, the preview image,
+or the production domain (`https://renportfolio.netlify.app`). `npm run build`
+generates distinct metadata for `/` and `/projects` in the built HTML, plus
+`sitemap.xml`, `robots.txt`, and Person/WebSite structured data. Client-side
+navigation also updates the title, description, social tags, and canonical URL.
+Run `npm run check:seo` after building to verify these files.
+
+Deploy the generated `dist` folder on Netlify. Then verify the website in
+Google Search Console, submit `https://renportfolio.netlify.app/sitemap.xml`,
+and use URL Inspection to request indexing for the homepage and `/projects`.
+Search Console ownership verification and indexing requests are manual steps.
+Google decides whether and when to index pages; these changes do not guarantee rankings.
+
+## Components
 
 Components are grouped by where they are used:
 

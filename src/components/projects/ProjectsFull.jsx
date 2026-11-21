@@ -227,7 +227,7 @@ export default function PortfolioGallery() {
         {/* ── Search + Filter ── */}
         <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 mb-6">
             <div className="py-2 ">
-                <p className="text-2xl font-semibold">Projects</p>
+                <h1 className="text-2xl font-semibold">Projects</h1>
             </div>
             <div className="flex w-full xl:w-auto gap-3 flex-wrap items-center">
             <input

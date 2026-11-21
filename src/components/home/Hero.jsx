@@ -33,9 +33,9 @@ function Hero() {
           id="title"
           className="min-w-0 p-6 md:p-8 content-center z-20 text-center md:text-left md:border-l-2 md:border-white md:ml-5"
         >
-          <h3 className="font-stm text-3xl  text-white md:text-4xl lg:text-5xl">
+          <h1 className="font-stm text-3xl  text-white md:text-4xl lg:text-5xl">
             Hello, I'm Ren Averion
-          </h3>
+          </h1>
           <h4 className="font-stm text-white mb-2 md:text-2xl">
             Web Developer/Designer <br />
             UX/UI Designer
