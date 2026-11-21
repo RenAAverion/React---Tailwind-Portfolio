@@ -3,8 +3,9 @@ import Reveal from "../shared/Reveal.jsx";
 
 function About() {
   return (
-    <section id="about" className="bg-white md:p-10 lg:flex lg:content-around ">
-      <div className="px-3 py-5 md:p-5 lg:mr-6 lg:flex-1 min-w-0">
+    <section id="about" className="bg-white">
+      <div className="site-container py-5 md:py-10 lg:flex lg:gap-12">
+      <div className="py-5 lg:flex-1 min-w-0">
         <h4 className="font-stm text-dbl text-2xl md:text-3xl">About Me</h4>
         <hr className="block border-dashed my-2 " />
         <Reveal className="fade">
@@ -34,12 +35,13 @@ function About() {
         </p>
         </Reveal>
       </div>
-      <div className="m-3 bg-dbl rounded-md lg:flex-1 lg:ml-6 min-w-0 p-5">
+      <div className="bg-dbl rounded-md lg:flex-1 min-w-0 p-5">
         <h4 className="font-stm text-2xl md:text-3xl text-white text-center">
           Relevant Files
         </h4>
         <hr className="block border-dashed my-2 border-white" />
         <Proofs />
+      </div>
       </div>
     </section>
   );

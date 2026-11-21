@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { shouldHideHeader } from "./headerScroll.js";
 
 const navItems = [
   { id: "home", label: "Home", href: "/#hero" },
@@ -11,13 +12,27 @@ const navItems = [
 function Header() {
   const [active, setActive] = useState("home");
   const location = useLocation();
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let previousY = Math.max(0, window.scrollY);
+    const handleScroll = () => {
+      const currentY = Math.max(0, window.scrollY);
+      if (currentY === previousY) return;
+      setHidden(shouldHideHeader(currentY, previousY));
+      previousY = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const activeId = location.pathname === "/projects" ? "proj" : active;
 
   return (
-    <div
-      className="flex flex-col justify-center font-stm w-full p-3 fixed shadow-xl z-[999] bg-white top-0 left-0 md:flex md:flex-row md:justify-between md:p-5"
+    <header
+      inert={hidden}
+      className={`font-stm w-full fixed shadow-xl z-[999] bg-white top-0 left-0 transition-transform duration-500 ease-in-out motion-reduce:transition-none ${hidden ? "-translate-y-full pointer-events-none" : "translate-y-0"}`}
       id="nav"
     >
+      <div className="site-container flex flex-col justify-center py-3 md:flex-row md:items-center md:justify-between md:py-5">
       <p className="text-2xl mx-auto md:text-2xl md:mx-0">My Portfolio</p>
       <nav className="md:flex-col">
         <ul className="flex gap-3 sm:gap-8 md:gap-10 justify-center text-sm sm:text-base">
@@ -34,7 +49,8 @@ function Header() {
           ))}
         </ul>
       </nav>
-    </div>
+      </div>
+    </header>
   );
 }
 

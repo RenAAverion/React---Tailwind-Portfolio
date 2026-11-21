@@ -2,7 +2,7 @@ function Footer() {
   return (
     <footer className="bg-dbl text-white">
       <hr />
-      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between md:justify-evenly content-center p-3">
+      <div className="site-container flex flex-col sm:flex-row gap-3 items-center justify-between content-center py-3">
         <p className="font-stm text-xs md:text-sm">
           &copy;{new Date().getFullYear()} Ren Portfolio
         </p>
