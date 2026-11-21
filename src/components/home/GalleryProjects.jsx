@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import getLinkStatus from "../../data/projectLink.js";
 import { Link } from 'react-router-dom';
 import Websites from "../../data/projects.js"
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,30 +21,8 @@ const tag = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 
   <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
 </svg>;
 
-async function checkLink(link) {
-  if (link === "Unpublished") return { status: "unpublished", url: null };
-
-  try {
-    const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(link)}`, {
-      method: "HEAD",
-      signal: AbortSignal.timeout(5000),
-    });
-
-    return response.ok
-      ? { status: "live", url: link }
-      : { status: "unpublished", url: null };
-
-  } catch {
-    return { status: "unpublished", url: null };
-  }
-}
-
 export function SiteCard({ site }) {
-  const [linkStatus, setLinkStatus] = useState(null);
-
-  useEffect(() => {
-    checkLink(site.link).then(result => setLinkStatus(result));
-  }, [site.link]);
+  const linkStatus = getLinkStatus(site.link);
 
   return (
     <div className="h-full flex flex-col rounded-md bg-white shadow-xl/30 relative overflow-hidden">
@@ -53,7 +31,7 @@ export function SiteCard({ site }) {
       </span>
 
       {/* Smaller image on mobile */}
-      <img src={site.snapshot} alt={site.name + " preview"} className="w-full h-28 md:h-48 object-cover" />
+      <img loading="lazy" decoding="async" src={site.snapshot} alt={site.name + " preview"} className="w-full h-28 md:h-48 object-cover" />
 
       <div className="py-1 px-1 flex-1 flex flex-col justify-between">
         <div className="text-center px-2 md:px-10 py-2 md:py-5">
@@ -75,7 +53,6 @@ export function SiteCard({ site }) {
             href={linkStatus?.status === "live" ? linkStatus.url : undefined}
             className="flex flex-1 justify-center items-center px-2 py-1 md:py-2 border-1 bg-dbl text-white font-stm rounded-md text-xs md:text-m hover:bg-white hover:text-dbl transition ease-linear duration-300"
           >
-            {linkStatus === null && globe}
             {linkStatus?.status === "live" && globe}
             {linkStatus?.status === "unpublished" && linkSlash}
             &nbsp;Visit

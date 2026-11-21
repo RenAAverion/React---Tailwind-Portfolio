@@ -1,3 +1,4 @@
+import getLinkStatus from "../../data/projectLink.js";
 import ProjectDropdown from './ProjectDropdown.jsx';
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -42,13 +43,6 @@ const FilterIcon = ({ open = false }) => (
   </svg>
 );
 
-function getLinkStatus(link) {
-  if (!link || link === "Unpublished") return { status: "unpublished", url: null };
-  const raw = link.split(" or ")[0].trim();
-  const url = raw.startsWith("http") ? raw : `https://${raw}`;
-  return { status: "live", url };
-}
-
 function getCategories(data) {
   return ["All", ...[...new Set(data.map((s) => s.category))].sort()];
 }
@@ -57,11 +51,12 @@ function getCategories(data) {
 
 function SiteCard({ site, view = "grid" }) {
   const linkStatus = getLinkStatus(site.link);
+  const expanded = view !== "grid";
 
   return (
-    <div data-project-card className={`h-full flex rounded-md shadow-sm border border-gray-100 relative overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 ${view === "list" ? "flex-col sm:flex-row" : "flex-col"}`}>
+    <div data-project-card className={`h-full flex flex-col rounded-md shadow-sm border border-gray-100 relative overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 ${view === "list" ? "sm:flex-row" : ""}`}>
       {/* Category badge */}
-      <span className="flex items-center gap-1 absolute m-2 px-1.5 py-0.5 rounded bg-white/90 right-0 shadow-sm z-10 text-xs text-gray-500 max-w-[70%] truncate">
+      <span className={`flex items-center gap-1 absolute m-2 px-1.5 py-0.5 rounded bg-white/90 right-0 shadow-sm z-10 text-xs text-gray-500 max-w-[70%] truncate ${view === "list" ? "sm:left-0 sm:right-auto sm:max-w-[35%]" : ""}`}>
         {site.fav && <StarIcon filled className="w-3 h-3 text-yellow-500 shrink-0" />}
         <span className="flex justify-center truncate">{tag}|{" " + site.category}</span>
       </span>
@@ -70,12 +65,12 @@ function SiteCard({ site, view = "grid" }) {
         src={site.snapshot}
         alt={site.name + " preview"}
         loading="lazy"
-        className={`object-cover ${view === "list" ? "w-full h-36 sm:w-48 sm:h-auto sm:shrink-0" : "w-full h-28 md:h-44"}`}
+        className={`w-full object-cover ${view === "list" ? "aspect-video sm:aspect-auto sm:w-2/5 sm:h-64 sm:shrink-0" : expanded ? "aspect-video" : "h-28 md:h-44"}`}
       />
 
       <div className="py-1 px-1 min-w-0 flex-1 flex flex-col justify-between">
-        <div className={`px-2 md:px-5 py-2 md:py-4 ${view === "list" ? "text-left sm:pr-40" : "text-center"}`}>
-          <h4 className={`font-stm text-sm md:text-base font-semibold mb-1 leading-tight ${view === "list" ? "min-h-8" : "min-h-8 md:min-h-12 flex items-center justify-center"}`}>
+        <div className={`px-2 md:px-5 py-2 md:py-4 ${expanded ? "text-left" : "text-center"}`}>
+          <h4 className={`font-stm text-sm md:text-base font-semibold mb-1 leading-tight ${expanded ? "min-h-8" : "min-h-8 md:min-h-12 flex items-center justify-center"}`}>
             {site.name}
           </h4>
           <p className="mt-1 font-stm text-xs md:text-sm text-gray-500 line-clamp-3 h-14">
@@ -90,7 +85,7 @@ function SiteCard({ site, view = "grid" }) {
             rel="noopener noreferrer"
             href={linkStatus.status === "live" ? linkStatus.url : undefined}
             title={linkStatus.status === "unpublished" ? "Not published" : "Visit site"}
-            className={`flex ${view === "list" ? "w-28 shrink-0" : "flex-3"} justify-center items-center px-2 py-1.5 border border-dbl bg-dbl text-white rounded-md text-xs
+            className={`flex ${expanded ? "w-28 shrink-0" : "flex-3"} justify-center items-center px-2 py-1.5 border border-dbl bg-dbl text-white rounded-md text-xs
               hover:bg-white hover:text-dbl transition ease-linear duration-300
               ${linkStatus.status === "unpublished" ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
           >
@@ -103,7 +98,7 @@ function SiteCard({ site, view = "grid" }) {
             target="_blank"
             rel="noopener noreferrer"
             href={site.preview}
-            className={`${view === "list" ? "w-28 shrink-0" : "flex-[3]"} flex items-center justify-center px-2 py-1.5 border border-dbl bg-white text-dbl rounded-md text-xs
+            className={`${expanded ? "w-28 shrink-0" : "flex-[3]"} flex items-center justify-center px-2 py-1.5 border border-dbl bg-white text-dbl rounded-md text-xs
               hover:bg-dbl hover:text-white transition ease-linear duration-300`}
           >
             Preview
@@ -137,6 +132,8 @@ function FavoritesSlideshow({ favorites }) {
           <SwiperSlide key={site.company + site.name}>
             <div className="relative min-h-[280px] sm:min-h-[400px] lg:min-h-[560px] overflow-hidden">
       <img
+        loading="lazy"
+        decoding="async"
         key={site.snapshot}
         src={site.snapshot}
         alt={site.name}
@@ -234,9 +231,9 @@ export function ProjectResults({ projects, view, columns }) {
 
   return (
     <>
-      <div ref={gridRef} className={`grid gap-3 ${view === "list" ? "grid-cols-1" : gridLayouts[columns]}`}>
+      <div ref={gridRef} className={`project-results grid gap-3 ${view === "list" ? "grid-cols-1" : gridLayouts[columns]}`}>
         {projects.slice(0, visibleCount).map((site) => (
-          <SiteCard key={site.company + site.name} site={site} view={view} />
+          <SiteCard key={site.company + site.name} site={site} view={view === "grid" && columns === 1 ? "wide" : view} />
         ))}
       </div>
       <div className="py-6 text-center text-sm text-gray-500">
@@ -289,7 +286,7 @@ export default function PortfolioGallery() {
                 className="w-full sm:w-64 min-w-0 px-3 py-2 rounded-md border border-gray-200 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-dbl transition"
             />
 
-            <ProjectDropdown label="Filter by category" value={selectedCategory} onChange={setSelectedCategory} options={categories.map((category) => ({ value: category, label: category === "All" ? "Filter by category" : category }))} icon={(open) => <FilterIcon open={open} />} />
+            <ProjectDropdown label="Filter by category" value={selectedCategory} onChange={setSelectedCategory} options={categories.map((category) => ({ value: category, label: category === "All" ? "Filter by category" : category }))} widthOptions={getCategories(sitesData).map((category) => ({ value: category, label: category === "All" ? "Filter by category" : category }))} icon={(open) => <FilterIcon open={open} />} />
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <span>Company:</span>
               <div role="group" aria-label="Company" className="flex items-center flex-wrap gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
@@ -319,7 +316,7 @@ export default function PortfolioGallery() {
             </div>
         </div>
         <hr className="block border-dashed my-2 " />
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 my-5">
+        <div key={selectedCompany} className="project-results grid grid-cols-1 xl:grid-cols-2 gap-3 my-5">
           {companies.filter((company) => selectedCompany === "All" || selectedCompany === company).map((company) => {
             const details = companyDetails[company];
             if (!details) return null;
@@ -342,15 +339,15 @@ export default function PortfolioGallery() {
             );
           })}
         </div>
-        {favorites.length > 0 && <>
-          {!isFiltering && <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2"><StarIcon filled className="w-4 h-4" />Personal Favorites</h2>}
-          <div className="min-w-0 shadow-xl mb-5 border-2 rounded-lg border-yellow-500">
+        {favorites.length > 0 && !isFiltering && view === "grid" && columns === 5 && <>
+          <h2 className="text-base font-semibold mb-3 text-yellow-500 flex items-center gap-2"><StarIcon filled className="w-4 h-4" />Personal Favorites</h2>
+          <div key={selectedCompany} className="project-results min-w-0 shadow-xl mb-5 border-2 rounded-lg border-yellow-500">
             <FavoritesSlideshow key={selectedCompany} favorites={favorites} />
           </div>
         </>}
         {isFiltering && <p className="text-sm text-gray-500 mb-4">{filtered.length} result{filtered.length !== 1 ? "s" : ""}</p>}
         {filtered.length === 0 ? (
-          <p className="py-20 text-center text-sm text-gray-500">{isFiltering ? "No projects found. Try a different search or category." : selectedCompany === "All" ? "No projects added yet." : `No projects added for ${selectedCompany} yet.`}</p>
+          <p key={JSON.stringify([selectedCompany, selectedCategory, search])} className="project-results py-20 text-center text-sm text-gray-500">{isFiltering ? "No projects found. Try a different search or category." : selectedCompany === "All" ? "No projects added yet." : `No projects added for ${selectedCompany} yet.`}</p>
         ) : (
           <ProjectResults key={JSON.stringify([selectedCompany, selectedCategory, search, view, columns])} projects={filtered} view={view} columns={columns} />
         )}

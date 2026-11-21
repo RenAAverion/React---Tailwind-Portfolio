@@ -19,7 +19,7 @@ function Gallery() {
       {images.map((img) => (
         <SwiperSlide key={img.name} className="!w-32">
           <div className="flex flex-col items-center justify-center font-stm">
-            <img src={img.logo} alt={img.name + " logo"} className="h-15 w-15 rounded-md" />
+            <img loading="lazy" decoding="async" width="60" height="60" src={img.logo} alt={img.name + " logo"} className="h-15 w-15 rounded-md" />
             <p className="text-white">{img.name}</p>
           </div>
         </SwiperSlide>
