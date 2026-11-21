@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import { shouldHideHeader } from "./headerScroll.js";
 
 const navItems = [
@@ -11,7 +11,7 @@ const navItems = [
 
 function Header() {
   const [active, setActive] = useState("home");
-  const location = useLocation();
+  const projectsMatch = useMatch("/projects");
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
     let previousY = Math.max(0, window.scrollY);
@@ -24,7 +24,7 @@ function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const activeId = location.pathname === "/projects" ? "proj" : active;
+  const activeId = projectsMatch ? "proj" : active;
 
   return (
     <header
