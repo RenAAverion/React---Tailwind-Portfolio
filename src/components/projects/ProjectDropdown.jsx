@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function ProjectDropdown({ label, value, options, onChange, icon }) {
+export default function ProjectDropdown({ label, value, options, onChange, icon, widthOptions = options }) {
   const ref = useRef(null);
   const [open, setOpen] = useState(false);
   const selected = options.find((option) => option.value === value);
@@ -20,7 +20,7 @@ export default function ProjectDropdown({ label, value, options, onChange, icon 
 
   return (
     <div className="relative inline-grid h-[42px] max-w-full shrink-0 text-sm">
-      {options.map((option) => <span key={option.value} aria-hidden="true" className={`invisible pointer-events-none col-start-1 row-start-1 whitespace-nowrap pl-3 ${icon ? 'pr-16' : 'pr-10'}`}>{option.label}</span>)}
+      {widthOptions.map((option) => <span key={option.value} aria-hidden="true" className={`invisible pointer-events-none col-start-1 row-start-1 whitespace-nowrap pl-3 ${icon ? 'pr-16' : 'pr-10'}`}>{option.label}</span>)}
       <details ref={ref} onToggle={(event) => setOpen(event.currentTarget.open)} onKeyDown={(event) => { if (event.key === 'Escape') close(); }} className="absolute inset-0">
         <summary aria-label={label} className="flex h-full cursor-pointer list-none items-center gap-2 rounded-md border border-dbl bg-dbl px-3 text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-details-marker]:hidden">
           {icon?.(open)}

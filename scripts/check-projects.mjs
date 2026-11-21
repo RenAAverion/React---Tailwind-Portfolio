@@ -3,6 +3,12 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createServer } from 'vite';
 import { MemoryRouter } from 'react-router-dom';
+import getLinkStatus from '../src/data/projectLink.js';
+
+assert.deepEqual(getLinkStatus('Unpublished'), { status: 'unpublished', url: null });
+assert.deepEqual(getLinkStatus(''), { status: 'unpublished', url: null });
+assert.equal(getLinkStatus('example.com or https://other.example').url, 'https://example.com');
+assert.equal(getLinkStatus('https://example.com').url, 'https://example.com');
 
 const server = await createServer({ server: { middlewareMode: true } });
 try {
@@ -10,6 +16,14 @@ try {
   const { default: Gallery, ProjectResults } = await server.ssrLoadModule('/src/components/projects/ProjectsFull.jsx');
   const { SitesPreview } = await server.ssrLoadModule('/src/components/home/GalleryProjects.jsx');
   const { default: Skills } = await server.ssrLoadModule('/src/components/home/GalleryStack.jsx');
+  const { default: Hero } = await server.ssrLoadModule('/src/components/home/Hero.jsx');
+  const { default: Stack } = await server.ssrLoadModule('/src/components/home/Stack.jsx');
+  for (const Section of [Hero, Stack]) {
+    const html = renderToStaticMarkup(createElement(Section));
+    assert(!html.includes('<iframe'), 'Video players must not load before user interaction');
+    assert(!html.includes('Play background video'));
+    assert(html.includes('section-video'));
+  }
   assert(companies.includes('Simple') && companies.includes('SMP'));
   assert(projects.length > 0);
   assert(projects.every((project) => companies.includes(project.company)));
@@ -22,10 +36,16 @@ try {
   assert(initialGrid.includes('xl:grid-cols-5'));
   const list = renderToStaticMarkup(createElement(ProjectResults, { projects: batch.slice(0, 1), view: 'list', columns: 5 }));
   assert(list.includes('sm:flex-row'));
+  assert(list.includes('sm:w-2/5 sm:h-64'));
+  const singleColumn = renderToStaticMarkup(createElement(ProjectResults, { projects: batch.slice(0, 1), view: 'grid', columns: 1 }));
+  assert(singleColumn.includes('w-full object-cover aspect-video'));
+  assert(!singleColumn.includes('sm:flex-row'));
+  assert.equal((list.match(/w-28 shrink-0/g) || []).length, 2);
   assert(!list.includes('xl:grid-cols-5'));
   assert(!list.includes('Load more'));
   const preview = renderToStaticMarkup(createElement(MemoryRouter, null, createElement(SitesPreview)));
   assert.equal((preview.match(/class="swiper-slide(?: |")/g) || []).length, projects.length);
+  assert.equal((preview.match(/loading="lazy"/g) || []).length, projects.length);
   const skills = renderToStaticMarkup(createElement(Skills));
   assert(skills.includes('swiper-wrapper'));
   assert.equal((skills.match(/WordPress logo/g) || []).length, 1);
