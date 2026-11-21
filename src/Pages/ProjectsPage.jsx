@@ -1,8 +1,8 @@
-import Header from "../modular/Header";
-import Reveal from "../modular/Reveal";
-import PortfolioGallery from "../modular/ProjectsFull";
-import Contact from "../sections/Contact";
-import Footer from "../modular/Footer";
+import Header from "../components/shared/Header.jsx";
+import Reveal from "../components/shared/Reveal.jsx";
+import PortfolioGallery from "../components/projects/ProjectsFull.jsx";
+import Contact from "../components/shared/Contact.jsx";
+import Footer from "../components/shared/Footer.jsx";
 
 function ProjectsPage() {
     return (

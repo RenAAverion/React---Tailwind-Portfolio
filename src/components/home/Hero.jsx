@@ -1,27 +1,28 @@
-import WaveDivider from "../modular/wave";
-import Reveal from "../modular/Reveal";
+import WaveDivider from "./WaveDivider.jsx";
 
 function Hero() {
   return (
     <section
       id="hero"
-      className="flex flex-col mt-30 md:mb-10 justify-center md:items-center md:mt-0  md:p-0 mad:mb-0 md:h-screen scroll-p-95"
+      className="relative isolate flex flex-col justify-center items-center min-h-svh bg-dbl pt-36 pb-32 md:pt-28 overflow-hidden"
     >
       {/* BG Video */}
-      <div className="absolute inset-0 overflow-hidden -z-10">
+      <div className="section-video absolute inset-0 overflow-hidden -z-10" aria-hidden="true">
         <iframe
           allow="autoplay"
           allowFullScreen
+          title="Hero background video"
+          tabIndex={-1}
           src="https://player.vimeo.com/video/1167733829?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1"
-            className="border-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-full md:h-[200%] pointer-events-none h-[800%] w-[320%]"
+          className="pointer-events-none border-none"
         />
       </div> 
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-dbl/60 -z-10"></div>
 
-      <div className="flex flex-col md:flex-row">
-        <div id="picture" className="md:flex md:items-center">
+      <div className="flex w-full max-w-6xl flex-col md:flex-row items-center px-4 md:px-8">
+        <div id="picture" className="shrink-0 md:flex md:items-center">
           <img
             src="https://i.ibb.co/bjc6hQSs/371083425-324521823543726-8201669079437847996-n.jpg"
             alt=""
@@ -30,9 +31,9 @@ function Hero() {
         </div>
         <div
           id="title"
-          className="p-10 content-center z-20 text-center md:text-left md:border-l-2 md:border-white md:ml-5"
+          className="min-w-0 p-6 md:p-8 content-center z-20 text-center md:text-left md:border-l-2 md:border-white md:ml-5"
         >
-          <h3 className="font-stm text-3xl  text-white md:text-5xl">
+          <h3 className="font-stm text-3xl  text-white md:text-4xl lg:text-5xl">
             Hello, I'm Ren Averion
           </h3>
           <h4 className="font-stm text-white mb-2 md:text-2xl">
@@ -46,13 +47,12 @@ function Hero() {
       </div>
         {/* Section division design */}
       
-      <div className="md:mt-auto md:absolute md:bottom-0 w-full">
-        <Reveal>
+      <div className="pointer-events-none absolute -bottom-px inset-x-0 w-full" aria-hidden="true">
         <WaveDivider />
-        </Reveal>
       </div>
     </section>
   );
 }
 
 export default Hero;
+

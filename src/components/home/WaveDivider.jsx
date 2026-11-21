@@ -6,7 +6,7 @@ const WaveDivider = ({ colorClass = "text-white", flip = false }) => {
       <svg
         viewBox="0 0 1200 200"
         preserveAspectRatio="none"
-        className={`w-full h-32 ${flip ? "rotate-180" : ""}`}
+        className={`block w-full h-32 ${flip ? "rotate-180" : ""}`}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

@@ -32,18 +32,18 @@ export default function ContactForm() {
   <form ref={formRef} onSubmit={handleSubmit} className='md:flex md:flex-col md:flex-1'>
 
     <div className='md:flex md:flex-1 md:mb-2 md:gap-2'>
-        <div className='flex flex-col mb-2 md:flex-1 md:mb-0'>
+        <div className='flex min-w-0 flex-col mb-2 md:flex-1 md:mb-0'>
             <label htmlFor="name">Name:</label>
-            <input className='p-2 border-white border rounded-md' type="text" name="name" placeholder="Your Name" />
+            <input className='w-full min-w-0 p-2 border-white border rounded-md' type="text" name="name" placeholder="Your Name" />
         </div>
-        <div className='flex flex-col mb-2 md:flex-1 md:mb-0'>
+        <div className='flex min-w-0 flex-col mb-2 md:flex-1 md:mb-0'>
             <label htmlFor="email">Email:</label>
-            <input className='p-2 border-white border not-first-of-type:rounded-md' type="email" name="email" placeholder="Your Email" />
+            <input className='w-full min-w-0 p-2 border-white border not-first-of-type:rounded-md' type="email" name="email" placeholder="Your Email" />
         </div>
     </div>
     <div className='flex flex-col flex-1 md:mb-2'>
         <label htmlFor="message">Message:</label>
-        <textarea name="message" placeholder="Your message" className='resize-none h-[10em] p-2 border-white border rounded-md' />
+        <textarea name="message" placeholder="Your message" className='w-full min-w-0 resize-y h-[10em] w-full min-w-0 p-2 border-white border rounded-md' />
         {sent && <p className='pt-2 px-2'>Message sent!</p>}
     </div>
     <div className='mt-2 md:mt-0'>

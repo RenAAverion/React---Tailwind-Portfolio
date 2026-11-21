@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import Websites from "/Datas/Websites.json"
-import ProjectsPage from "../Pages/ProjectsPage";
+import Websites from "../../data/projects.js"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y, Autoplay, EffectCoverflow, Keyboard, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/navigation';
 
 
 const globe = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -43,7 +47,7 @@ export function SiteCard({ site }) {
   }, [site.link]);
 
   return (
-    <div className="h-full flex flex-col rounded-md shadow-xl/30 relative overflow-hidden">
+    <div className="h-full flex flex-col rounded-md bg-white shadow-xl/30 relative overflow-hidden">
       <span className="flex items-center font-stm absolute m-2 md:m-5 p-1 rounded-md bg-white right-0 shadow-md z-10 text-xs md:text-sm">
         {tag}|{" " + site.category}
       </span>
@@ -109,21 +113,30 @@ export function SitesPreview() {
       {/* Right fade overlay - reduced on mobile */}
       <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
       
-      {/* Scrolling container */}
-      <div className="flex gap-4 animate-scroll">
-        {/* First set */}
-        {Websites.map((site, index) => (
-          <div key={`first-${index}`} className="flex-shrink-0 w-56 h-[340px] md:w-80 md:h-[500px]">
+      <Swiper
+        key="project-coverflow"
+        modules={[A11y, Autoplay, EffectCoverflow, Keyboard, Navigation]}
+        effect="coverflow"
+        coverflowEffect={{ rotate: 0, stretch: "25%", depth: 40, scale: 0.92, slideShadows: false }}
+        centeredSlides
+        slideToClickedSlide
+        grabCursor
+        navigation
+        slidesPerView="auto"
+        spaceBetween={0}
+        loop={Websites.length > 2}
+        speed={700}
+        autoplay={{ enabled: true, delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: false }}
+        keyboard={{ enabled: true }}
+        a11y={{ containerMessage: "Project previews" }}
+        className="project-coverflow w-full max-w-7xl min-w-0 !pt-6 sm:!pt-10 !pb-12"
+      >
+        {Websites.map((site) => (
+          <SwiperSlide key={site.company + site.name} className="!w-56 !h-[340px] md:!w-80 md:!h-[500px]">
             <SiteCard site={site} />
-          </div>
+          </SwiperSlide>
         ))}
-        {/* Duplicate for seamless loop */}
-        {Websites.map((site, index) => (
-          <div key={`second-${index}`} className="flex-shrink-0 w-56 h-[340px] md:w-80 md:h-[500px]">
-            <SiteCard site={site} />
-          </div>
-        ))}
-      </div>
+      </Swiper>
       <div className="flex justify-center mt-8">
         <Link
           to="/projects"
@@ -137,3 +150,4 @@ export function SitesPreview() {
 }
 
 export default Sites;
+

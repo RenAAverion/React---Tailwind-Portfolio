@@ -2,8 +2,8 @@ function Footer() {
   return (
     <footer className="bg-dbl text-white">
       <hr />
-      <div className="flex flex-row justify-between md:justify-evenly content-center p-3">
-        <p className="font-stm text-xs mdtext-sm">
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between md:justify-evenly content-center p-3">
+        <p className="font-stm text-xs md:text-sm">
           &copy;{new Date().getFullYear()} Ren Portfolio
         </p>
         <div className="flex gap-3 md:content-center">
@@ -23,3 +23,4 @@ function Footer() {
 }
 
 export default Footer;
+
