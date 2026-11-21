@@ -303,7 +303,7 @@ export default function PortfolioGallery() {
               ))}
               </div>
             </div>
-            <div role="group" aria-label="Project view" className="flex items-center gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+            <div role="group" aria-label="Project view" className="hidden sm:flex items-center gap-1 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
               {["grid", "list"].map((mode) => (
                 <button key={mode} type="button" aria-label={mode === "grid" ? "Grid view" : "List view"} title={mode === "grid" ? "Grid view" : "List view"} aria-pressed={view === mode} onClick={() => setView(mode)} className={`flex h-8 w-10 items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${view === mode ? "bg-dbl text-white" : "hover:bg-gray-100"}`}>
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-5">
@@ -312,7 +312,7 @@ export default function PortfolioGallery() {
                 </button>
               ))}
             </div>
-            {view === "grid" && <ProjectDropdown label="Projects per row (limited by screen width)" value={columns} onChange={setColumns} options={[1, 2, 3, 4, 5].map((count) => ({ value: count, label: count + " / row" }))} />}
+            {view === "grid" && <div className="hidden sm:block"><ProjectDropdown label="Projects per row (limited by screen width)" value={columns} onChange={setColumns} options={[1, 2, 3, 4, 5].map((count) => ({ value: count, label: count + " / row" }))} /></div>}
             </div>
         </div>
         <hr className="block border-dashed my-2 " />
